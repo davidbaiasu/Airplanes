@@ -2,7 +2,6 @@ const ROWS = 10;
 const COLS = 10;
 const diffHeadToBody = 3;
 
-
 let grid = [
 
 	[0,0,0,0,0,0,0,0,0,0,0],
@@ -18,6 +17,18 @@ let grid = [
 	[0,0,0,0,0,0,0,0,0,0,0]
 
 ];
+
+const colorMap = {
+	
+	0: "white",
+	1: "darkred",
+	2: "darkblue",
+	3: "darkgreen",
+	4: "red",
+	5: "blue",
+	6: "green"
+	
+};
 
 let planeCount = 0;
 
@@ -91,8 +102,9 @@ function placePlane(grid, i, j, dir){
 
 function isValidPlanePlacement(grid, i, j, dir){ // boolean
 
-	if ( i < 1 || i > 10 || j < 1 || j > 10 )
+	if ( i < 1 || i > 10 || j < 1 || j > 10 ){
 		return false;
+	}
 
 	if ( grid[i][j] != 0 )
 		return false;
@@ -175,7 +187,50 @@ function isValidPlanePlacement(grid, i, j, dir){ // boolean
 	return true;
 }
 
-placePlane(grid, 4, 4, 'south');
-console.log( isValidPlanePlacement(grid, 5, 4, 'north') );
-placePlane(grid, 5 , 4, 'north');
-console.log(grid);
+//-----------------------------------------------------------
+
+function createHTMLTable(){
+	
+	const tableElement = document.getElementById('id_table');
+
+	for( let i = 1; i <= ROWS; i++ ){
+		
+		let newRow = document.createElement('tr');
+		
+		for( let j = 1; j <= COLS; j++ ){
+				
+			let newCell = document.createElement('td');
+			newCell.id = `id_cell_${i}_${j}`;
+			newCell.classList.add("cell");
+			newRow.appendChild(newCell);
+			
+		}
+		
+		tableElement.appendChild(newRow);
+		
+	}
+	
+}
+
+function updateHTMLTable(grid){
+	
+	for( let i = 1; i <= ROWS; i++ ){
+		for( let j = 1; j <= COLS; j++ ){
+			const cell = document.getElementById(`id_cell_${i}_${j}`);
+			cell.style.backgroundColor = colorMap[grid[i][j]];
+		}
+	}
+	
+}
+
+//-----------------------------------------------------------
+
+createHTMLTable();
+
+placePlane(grid, 3, 5, 'east');
+placePlane(grid, 6, 7, 'north');
+
+if( isValidPlanePlacement(grid, 3, 8, 'noth') )
+	placePlane(grid, 3, 8, 'north');
+
+updateHTMLTable(grid);

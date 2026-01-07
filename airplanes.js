@@ -1,3 +1,8 @@
+const ROWS = 10;
+const COLS = 10;
+const diffHeadToBody = 3;
+
+
 let grid = [
 
 	[0,0,0,0,0,0,0,0,0,0,0],
@@ -15,7 +20,6 @@ let grid = [
 ];
 
 let planeCount = 0;
-const diffHeadToBody = 3;
 
 /*
 	plane1: head: 1
@@ -85,7 +89,93 @@ function placePlane(grid, i, j, dir){
 	
 }
 
+function isValidPlanePlacement(grid, i, j, dir){ // boolean
+
+	if ( i < 1 || i > 10 || j < 1 || j > 10 )
+		return false;
+
+	if ( grid[i][j] != 0 )
+		return false;
+
+	switch (dir){
+
+		case 'north':
+		
+			if ( i > 7 || j < 3 || j > 8 )
+				return false;
+
+			for ( let k = j - 2; k <= j + 2; k++ ) {
+				if ( grid[i + 1][k] != 0 )
+					return false;
+			}
+			if ( grid[i + 2][j] != 0 )
+				return false;
+			for ( let k = j - 1; k <= j + 1; k++ ) {
+				if ( grid[i + 3][k] != 0 )
+					return false;
+			}
+			break;
+
+		case 'south':
+		
+			if ( i < 4 || j < 3 || j > 8 )
+				return false;
+
+			for ( let k = j - 2; k <= j + 2; k++ ) {
+				if ( grid[i - 1][k] != 0 )
+					return false;
+			}
+			if ( grid[i - 2][j] != 0 )
+				return false;
+			for ( let k = j - 1; k <= j + 1; k++ ) {
+				if ( grid[i - 3][k] != 0 )
+					return false;
+			}
+			break;
+
+		case 'east':
+		
+			if ( j < 4 || i < 3 || i > 8 )
+				return false;
+
+			for ( let k = i - 2; k <= i + 2; k++ ) {
+				if ( grid[k][j - 1] != 0 )
+					return false;
+			}
+			if ( grid[i][j - 2] != 0 )
+				return false;
+			for ( let k = i - 1; k <= i + 1; k++ ) {
+				if ( grid[k][j - 3] != 0 )
+					return false;
+			}
+			break;
+
+		case 'west':
+		
+			if ( j > 7 || i < 3 || i > 8 )
+				return false;
+
+			for ( let k = i - 2; k <= i + 2; k++ ) {
+				if ( grid[k][j + 1] != 0 )
+					return false;
+			}
+			if ( grid[i][j + 2] != 0 )
+				return false;
+			for ( let k = i - 1; k <= i + 1; k++ ) {
+				if ( grid[k][j + 3] != 0 )
+					return false;
+			}
+			break;
+
+		default:
+			console.log("Error: placePlane() unknown direction");
+			return false;
+	}
+
+	return true;
+}
+
 placePlane(grid, 4, 4, 'south');
-placePlane(grid, 3, 10, 'east');
-placePlane(grid, 8, 2, 'west');
+console.log( isValidPlanePlacement(grid, 5, 4, 'north') );
+placePlane(grid, 5 , 4, 'north');
 console.log(grid);

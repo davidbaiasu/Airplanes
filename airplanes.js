@@ -100,6 +100,56 @@ function placePlane(grid, i, j, dir){
 	
 }
 
+function unplacePlane(grid, i, j, dir) {
+	
+	grid[i][j] = 0;
+	
+	switch(dir) {
+		
+		case 'north':
+			for (let k = j - 2; k <= j + 2; k++) {
+				grid[i + 1][k] = 0;
+			}
+			grid[i + 2][j] = 0;
+			for (let k = j - 1; k <= j + 1; k++) {
+				grid[i + 3][k] = 0;
+			}
+			break;
+			
+		case 'east':
+			for (let k = i - 2; k <= i + 2; k++) {
+				grid[k][j - 1] = 0;
+			}
+			grid[i][j - 2] = 0;
+			for (let k = i - 1; k <= i + 1; k++) {
+				grid[k][j - 3] = 0;
+			}
+			break;
+			
+		case 'south':
+			for (let k = j - 2; k <= j + 2; k++) {
+				grid[i - 1][k] = 0;
+			}
+			grid[i - 2][j] = 0;
+			for (let k = j - 1; k <= j + 1; k++) {
+				grid[i - 3][k] = 0;
+			}
+			break;
+			
+		case 'west':
+			for (let k = i - 2; k <= i + 2; k++) {
+				grid[k][j + 1] = 0;
+			}
+			grid[i][j + 2] = 0;
+			for (let k = i - 1; k <= i + 1; k++) {
+				grid[k][j + 3] = 0;
+			}
+			break;
+	}
+	
+	planeCount--; 
+}
+
 function isValidPlanePlacement(grid, i, j, dir){ // boolean
 
 	if ( i < 1 || i > 10 || j < 1 || j > 10 ){
@@ -226,11 +276,63 @@ function updateHTMLTable(grid){
 //-----------------------------------------------------------
 
 createHTMLTable();
-
-placePlane(grid, 3, 5, 'east');
-placePlane(grid, 6, 7, 'north');
-
-if( isValidPlanePlacement(grid, 3, 8, 'noth') )
-	placePlane(grid, 3, 8, 'north');
-
 updateHTMLTable(grid);
+
+//-----------------------------------------------------------
+
+const directions = ['north', 'east', 'south', 'west'];
+
+let result = [];
+let state = [];
+
+function backtrack(grid, directions, result){
+	
+	if( planeCount == 3 ){
+		result.push([...grid]);
+		console.log(":D");
+	}
+	
+	for( let i = 1; i <= ROWS; i++ ){
+		
+		for( let j = 1; j <= COLS; j++ ){
+			
+			for( let k = 0; k < directions.length; k++ ){
+				
+				if( isValidPlanePlacement(grid, i, j, directions[k]) ){
+					
+					placePlane(grid, i, j, directions[k]);
+					
+					backtrack(grid, directions, result);
+					
+					unplacePlane(grid, i, j, directions[k]);
+					
+					
+				}
+			
+			}
+		
+		}
+		
+	}
+	
+}
+
+backtrack(grid, directions, result);
+console.log(result);
+// total number of ways = 400896;
+
+//-----------------------------------------------------------
+
+function printToFile(content) {
+    const fileOutput = document.getElementById('fileOutput');
+    
+    // If it's a matrix (array of arrays), format it nicely
+    if (Array.isArray(content)) {
+        content = content.map(row => row.join(' ')).join('\n');
+    }
+    
+    // Add the content to the box (like appending to a file)
+    fileOutput.innerText += content + "\n---\n";
+}
+
+//-----------------------------------------------------------

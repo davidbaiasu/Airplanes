@@ -324,6 +324,21 @@ console.log(result);
 
 //-----------------------------------------------------------
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+async function showResultOnScreen(result){
+	
+	for( let i = 0; i < result.length; i++ ){
+		updateHTMLTable(result[i]);
+		await sleep(100);
+	}	
+	
+}
+
+showResultOnScreen(result);
+
+//-----------------------------------------------------------
+
 function printToFile(content) {
     const fileOutput = document.getElementById('fileOutput');
     

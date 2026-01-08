@@ -287,8 +287,10 @@ let state = [];
 
 function backtrack(grid, directions, result){
 	
+	if (result.length >= 10) return;
+	
 	if( planeCount == 3 ){
-		result.push([...grid]);
+		result.push(grid.map(row => [...row]));
 		console.log(":D");
 	}
 	
@@ -319,7 +321,6 @@ function backtrack(grid, directions, result){
 
 backtrack(grid, directions, result);
 console.log(result);
-// total number of ways = 400896;
 
 //-----------------------------------------------------------
 

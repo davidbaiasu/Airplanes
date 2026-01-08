@@ -287,11 +287,11 @@ let state = [];
 
 function backtrack(grid, directions, result){
 	
-	if (result.length >= 10) return;
+	if (result.length >= 10) return; // control condition
 	
 	if( planeCount == 3 ){
 		result.push(grid.map(row => [...row]));
-		console.log(":D");
+		//console.log(":D");
 	}
 	
 	for( let i = 1; i <= ROWS; i++ ){
@@ -341,14 +341,39 @@ showResultOnScreen(result);
 
 function printToFile(content) {
     const fileOutput = document.getElementById('fileOutput');
-    
-    // If it's a matrix (array of arrays), format it nicely
-    if (Array.isArray(content)) {
-        content = content.map(row => row.join(' ')).join('\n');
+    let formattedContent = "";
+
+    // Check if it's a 2D matrix (Array of Arrays)
+    if (Array.isArray(content) && Array.isArray(content[0])) {
+        // Format each row as [0, 0, 1, ...]
+        const rows = content.map(row => `  [${row.join(', ')}]`);
+        
+        // Wrap all rows in outer brackets to look like a JS variable
+        formattedContent = `[\n${rows.join(',\n')}\n],`;
+    } else {
+        formattedContent = content;
     }
-    
-    // Add the content to the box (like appending to a file)
-    fileOutput.innerText += content + "\n---\n";
+
+    // Append to the <pre> tag
+    fileOutput.innerText += formattedContent + "\n";
 }
 
 //-----------------------------------------------------------
+
+function highestHeadChance(result){
+
+	let chances = Array.from({ length: ROWS + 1 }, () => Array(COLS + 1).fill(0));
+	
+	for( let k = 0; k < result.length; k++ ){
+		
+		for( let i = 1; i <= ROWS; i++ ){
+			
+			for( let j = 1; j <= COlS; j++ ){
+				
+			}
+			
+		}
+		
+	}
+	
+}

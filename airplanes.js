@@ -339,6 +339,28 @@ showResultOnScreen(result);
 
 //-----------------------------------------------------------
 
+function highestHeadChance(result){
+
+	let chances = Array.from({ length: ROWS + 1 }, () => Array(COLS + 1).fill(0));
+	
+	for( let k = 0; k < result.length; k++ ){
+		
+		for( let i = 1; i <= ROWS; i++ ){
+			
+			for( let j = 1; j <= COlS; j++ ){
+				
+			}
+			
+		}
+		
+	}
+	
+}
+
+//ANYTHING BELOW IS AI WRITTEN;
+
+//-----------------------------------------------------------
+
 function printToFile(content) {
     const fileOutput = document.getElementById('fileOutput');
     let formattedContent = "";
@@ -358,22 +380,43 @@ function printToFile(content) {
     fileOutput.innerText += formattedContent + "\n";
 }
 
-//-----------------------------------------------------------
+function handleFileSelect() {
+    const fileInput = document.getElementById('solutionPicker');
+    const file = fileInput.files[0]; // Get the selected file
 
-function highestHeadChance(result){
+    if (!file) {
+        alert("Please select your solutions.json file first!");
+        return;
+    }
 
-	let chances = Array.from({ length: ROWS + 1 }, () => Array(COLS + 1).fill(0));
+    const reader = new FileReader();
+
+    // This runs automatically once the browser finishes reading the file
+    reader.onload = function(e) {
+        try {
+            // Parse the text back into a real JavaScript Array
+            window.result = JSON.parse(e.target.result);
+            
+            console.log("Success! Solutions in memory:", window.result.length);
+            alert("Loaded " + window.result.length + " solutions!");
+        } catch (err) {
+            console.error("Failed to parse JSON:", err);
+            alert("Error: The file might be corrupted or is not a valid JSON.");
+        }
+    };
+
+    // Starts the reading process
+    reader.readAsText(file);
 	
-	for( let k = 0; k < result.length; k++ ){
-		
-		for( let i = 1; i <= ROWS; i++ ){
-			
-			for( let j = 1; j <= COlS; j++ ){
-				
-			}
-			
-		}
-		
-	}
-	
+}
+
+function downloadCompact() {
+    // Each 11x11 matrix stays on one line; newlines only between solutions
+    const compactContent = "[\n" + window.result.map(grid => JSON.stringify(grid)).join(",\n") + "\n]";
+    
+    const blob = new Blob([compactContent], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = "solutions_compact.json";
+    link.click();
 }

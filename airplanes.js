@@ -427,8 +427,6 @@ function downloadCompact() {
     link.click();
 }
 
-// AI WRITTEN END;
-
 // ----------------------------------------------------
 
 let headChance = [
@@ -445,32 +443,35 @@ let headChance = [
 	[0,0,0,0,0,0,0,0,0,0,0]
 ];
 
-for (let k = 0; k < allWays.length; k++) {
-    let hc = 0; // Reset head count for each new grid
-    let currentGrid = allWays[k];
+function buildHeadChance(allWays){
+	for (let k = 0; k < allWays.length; k++) {
+		let hc = 0; // Reset head count for each new grid
+		let currentGrid = allWays[k];
 
-    // Label the row loop so we can break out of both i and j at once
-    rowLoop: 
-    for (let i = 1; i <= ROWS; i++) {
-        for (let j = 1; j <= COLS; j++) {
-            
-            // Check if it's a head (1, 2, or 3)
-            if (currentGrid[i][j] > 0 && currentGrid[i][j] < 4) {
-                headChance[i][j]++;
-                hc++;
-                
-                // If we found all 3 heads, stop looking at this grid
-                if (hc === 3) {
-                    break rowLoop; // Jumps out of both i and j loops
-                }
-            }
-        }
-    }
-    
-    // Optional: Log progress every 50,000 grids so you know it's working
-    if (k % 50000 === 0) console.log("Calculated " + k + " solutions...");
+		// Label the row loop so we can break out of both i and j at once
+		rowLoop: 
+		for (let i = 1; i <= ROWS; i++) {
+			for (let j = 1; j <= COLS; j++) {
+				
+				// Check if it's a head (1, 2, or 3)
+				if (currentGrid[i][j] > 0 && currentGrid[i][j] < 4) {
+					headChance[i][j]++;
+					hc++;
+					
+					// If we found all 3 heads, stop looking at this grid
+					if (hc === 3) {
+						break rowLoop; // Jumps out of both i and j loops
+					}
+				}
+			}
+		}
+		
+		// Optional: Log progress every 50,000 grids so you know it's working
+		if (k % 50000 === 0) console.log("Calculated " + k + " solutions...");
+	}
 }
 
+buildHeadChance(allWays);
 console.log("Final Heatmap:", headChance);
 
 const headChanceHeatmap = [
@@ -486,3 +487,34 @@ const headChanceHeatmap = [
     [0, 0, 0, 9864, 6378, 4500, 4500, 6378, 9864, 0, 0],
     [0, 0, 0, 14694, 10890, 8670, 8670, 10890, 14694, 0, 0]
 ];
+
+//-------------------------------
+
+const newMap = [];
+const tryRow = 4, tryCol = 4;
+
+for( let k = 0; k < allWays.length; k++ ){
+	
+	if( allWays[k][tryRow][tryCol] > 3 && allWays[k][tryRow][tryCol] < 7 ){
+		newMap.push(allWays[k]);
+	}
+	
+}
+
+console.log(newMap.length);
+
+headChance = [
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0]
+];
+
+buildHeadChance(newMap);

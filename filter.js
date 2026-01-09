@@ -1,5 +1,22 @@
 let localSolutions = allWays;
 
+function removeDuplicateSolutions(matrixArray) {
+	
+    const stringified = matrixArray.map(m => {
+        const normalized = m.map(row => 
+            row.map(cell => cell > 0 ? 1 : 0)
+        );
+        return JSON.stringify(normalized);
+    });
+    
+    const uniqueStrings = [...new Set(stringified)];
+	
+	return uniqueStrings;
+
+}
+
+let setSolutions = removeDuplicateSolutions(localSolutions);
+
 function filterSolutions(localSolutions, row, col, val){
 	
 	let auxMatrix = [];

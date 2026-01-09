@@ -42,6 +42,12 @@ let planeCount = 0;
 
 */
 
+window.onload = () => {
+	
+	
+	
+};
+
 function placePlane(grid, i, j, dir){
 	
 	planeCount++;
@@ -420,3 +426,63 @@ function downloadCompact() {
     link.download = "solutions_compact.json";
     link.click();
 }
+
+// AI WRITTEN END;
+
+// ----------------------------------------------------
+
+let headChance = [
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0,0]
+];
+
+for (let k = 0; k < allWays.length; k++) {
+    let hc = 0; // Reset head count for each new grid
+    let currentGrid = allWays[k];
+
+    // Label the row loop so we can break out of both i and j at once
+    rowLoop: 
+    for (let i = 1; i <= ROWS; i++) {
+        for (let j = 1; j <= COLS; j++) {
+            
+            // Check if it's a head (1, 2, or 3)
+            if (currentGrid[i][j] > 0 && currentGrid[i][j] < 4) {
+                headChance[i][j]++;
+                hc++;
+                
+                // If we found all 3 heads, stop looking at this grid
+                if (hc === 3) {
+                    break rowLoop; // Jumps out of both i and j loops
+                }
+            }
+        }
+    }
+    
+    // Optional: Log progress every 50,000 grids so you know it's working
+    if (k % 50000 === 0) console.log("Calculated " + k + " solutions...");
+}
+
+console.log("Final Heatmap:", headChance);
+
+const headChanceHeatmap = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 14694, 10890, 8670, 8670, 10890, 14694, 0, 0],
+    [0, 0, 0, 9864, 6378, 4500, 4500, 6378, 9864, 0, 0],
+    [0, 14694, 9864, 12444, 23520, 21372, 21372, 23520, 12444, 9864, 14694],
+    [0, 10890, 6378, 23520, 27192, 22752, 22752, 27192, 23520, 6378, 10890],
+    [0, 8670, 4500, 21372, 22752, 15756, 15756, 22752, 21372, 4500, 8670],
+    [0, 8670, 4500, 21372, 22752, 15756, 15756, 22752, 21372, 4500, 8670],
+    [0, 10890, 6378, 23520, 27192, 22752, 22752, 27192, 23520, 6378, 10890],
+    [0, 14694, 9864, 12444, 23520, 21372, 21372, 23520, 12444, 9864, 14694],
+    [0, 0, 0, 9864, 6378, 4500, 4500, 6378, 9864, 0, 0],
+    [0, 0, 0, 14694, 10890, 8670, 8670, 10890, 14694, 0, 0]
+];

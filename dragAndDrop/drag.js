@@ -25,7 +25,7 @@ window.addEventListener('keydown', (event) => {
 let rotation = 0;
 
 function rotatePlane() {
-    rotation += 90;
+    rotation = (rotation + 90) % 360;
     planeElement.style.transform = `rotate(${rotation}deg)`;
 }
 
@@ -38,8 +38,8 @@ document.addEventListener('mousemove', (e) => {
 
 // Helper function to handle the math
 function movePlane(x, y) {
-    const offsetX = planeElement.offsetWidth / 2;
-    const offsetY = planeElement.offsetHeight / 2;
+    const offsetX = planeElement.offsetWidth * 0.5;
+    const offsetY = planeElement.offsetHeight * 0.4;
     planeElement.style.left = (x - offsetX) + 'px';
     planeElement.style.top = (y - offsetY) + 'px';
 }

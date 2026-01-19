@@ -10,6 +10,7 @@
     position: absolute; /* Moves the element out of normal document flow */
     pointer-events: none; /* Mouse clicks pass through it to the table/divs below */
     z-index: 100; /* Keeps the plane on top of everything */
+	transform-origin: 50% 40%;
 }
 
 #id_div_park {

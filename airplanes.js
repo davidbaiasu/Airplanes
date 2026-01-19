@@ -325,8 +325,8 @@ function backtrack(grid, directions, result){
 	
 }
 
-backtrack(grid, directions, result);
-console.log(result);
+//backtrack(grid, directions, result);
+//console.log(result);
 
 //-----------------------------------------------------------
 
@@ -341,7 +341,7 @@ async function showResultOnScreen(result){
 	
 }
 
-showResultOnScreen(result);
+//showResultOnScreen(result);
 
 //-----------------------------------------------------------
 

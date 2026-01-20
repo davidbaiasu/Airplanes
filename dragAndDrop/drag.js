@@ -6,12 +6,10 @@ const ROWS = 10;
 const COLS = 10;
 
 const rotationToDirection = {
-	
 	0: 'north',
 	90: 'east',
 	180: 'south',
 	270: 'west'
-	
 };
 
 tableElement.addEventListener('click', (e) => {
@@ -41,9 +39,33 @@ tableElement.addEventListener('click', (e) => {
 		
 		updateHTMLTable(grid);
 		
+		snapPlaneImageBack();
+		if( planeCount == 3 ){
+			removePlaneImage();
+		}
+		
 	}
 	
 });
+
+function snapPlaneImageBack(){
+	
+	isFollowing = false;
+            
+	planeElement.style.left = ''; 
+	planeElement.style.top = '';
+            
+	rotation = 0;
+	planeElement.style.transform = `rotate(0deg)`;
+		
+}
+
+function removePlaneImage(){
+	
+	planeElement.style.display = 'none';
+	parkDiv.style.cursor = 'default';
+	
+}
 
 let isFollowing = false;
 

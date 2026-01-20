@@ -86,8 +86,12 @@ window.addEventListener('keydown', (event) => {
 });
 
 function rotatePlane() {
-    rotation = (rotation + 90) % 360;
-    planeElement.style.transform = `rotate(${rotation}deg)`;
+	
+	if( isFollowing === true ){
+		rotation = (rotation + 90) % 360;
+		planeElement.style.transform = `rotate(${rotation}deg)`;
+	}
+  
 }
 
 // 2. Follow the mouse
